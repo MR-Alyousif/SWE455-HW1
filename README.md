@@ -3,7 +3,7 @@
 This repository contains a Flask web application that serves as both the deployed application and the homework documentation.
 
 ## Live Demo
-http://swe455-hw1-env.eba-xyzabc123.us-east-1.elasticbeanstalk.com/ - *AWS Elastic Beanstalk URL*
+http://swe455-hw1-env.eba-zz3samri.us-east-1.elasticbeanstalk.com/ - *AWS Elastic Beanstalk URL*
 
 ## Project Overview
 This project demonstrates the deployment of a cloud-based web application, fulfilling the requirements of SWE-455 Homework 1. The application serves as both the deliverable and its own documentation, featuring:
@@ -93,13 +93,23 @@ aws:autoscaling:trigger:
 
 ## Screenshots
 ### Application Running in Browser
-![Application Screenshot](assets/app_screenshot.png)
+![Application Screenshot](assets/CloudWatch/app_screenshot.png)
 
 ### AWS Dashboard
-![AWS Dashboard](assets/CodePipline/Success.png)
+![AWS Dashboard](assets/CloudWatch/eb_dashboard.png)
 
 ### Monitoring Metrics
-![CloudWatch Metrics](assets/cloudwatch_metrics.png)
+![CloudWatch Metrics](assets/CloudWatch/cloudwatch_metrics.png)
+
+### Deployment Process
+#### Environment Configuration
+![Environment Configuration](assets/CodePipline/Configure%20environment.png)
+
+#### Auto-Scaling Configuration
+![Auto-Scaling Configuration](assets/CodePipline/configure%20instance%20traffic%20and%20scaling%202.png)
+
+#### Monitoring Configuration
+![Monitoring Configuration](assets/CodePipline/Configure%20updates,%20monitoring,%20and%20logging.png)
 
 ## Author
 Mohammed Alyousif
@@ -115,6 +125,7 @@ Mohammed Alyousif
 ### 1. AWS Account Setup
 - Created AWS account and configured IAM permissions
 - Set up access keys for local development
+- Created necessary IAM roles for Elastic Beanstalk service and EC2 instances
 
 ### 2. Local Development and Testing
 - Developed Flask application with Tailwind CSS
@@ -124,7 +135,8 @@ Mohammed Alyousif
 ### 3. AWS Elastic Beanstalk Setup
 - Created a new Elastic Beanstalk application
 - Configured environment settings (Python platform, load balancing)
-- Set up auto-scaling configuration
+- Set up auto-scaling configuration with min 2, max 5 instances
+- Configured scaling triggers based on CPU utilization (70% upper threshold, 30% lower threshold)
 
 ### 4. AWS CodePipeline Configuration
 - Created a new pipeline connected to GitHub repository
@@ -132,6 +144,12 @@ Mohammed Alyousif
 - Set up webhook for automatic deployments on code changes
 
 ### 5. Monitoring and Testing
-- Enabled CloudWatch monitoring
-- Tested the application under load
-- Verified auto-scaling functionality
+- Enabled CloudWatch monitoring with enhanced health reporting
+- Configured custom metrics for CPU, memory, requests, and latency
+- Set up CloudWatch logs for application monitoring
+
+### 6. Challenges Encountered
+- IAM role configuration issues required creating specific roles for Elastic Beanstalk
+  ![EC2 Role Configuration](assets/CodePipline/EC2%20role.png)
+- Deployment package configuration needed adjustments for proper static asset handling
+- WSGI path configuration required specific settings in the .ebextensions/python.config file

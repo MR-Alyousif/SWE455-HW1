@@ -57,6 +57,42 @@
                             <img src="../assets/CodePipline/Success.png" alt="Successful Deployment" class="w-full h-auto rounded border border-gray-200">
                         </div>
                     </div>
+                    
+                    <h3 class="text-xl font-semibold mt-6 mb-2">Elastic Beanstalk Configuration</h3>
+                    <p>The deployment process involved configuring several key aspects of the Elastic Beanstalk environment:</p>
+                    
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-600 mb-2 font-semibold">Environment Configuration</p>
+                            <img src="../assets/CodePipline/Configure environment.png" alt="Environment Configuration" class="w-full h-auto rounded border border-gray-200">
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-600 mb-2 font-semibold">Service Access Configuration</p>
+                            <img src="../assets/CodePipline/Configure service access.png" alt="Service Access Configuration" class="w-full h-auto rounded border border-gray-200">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-600 mb-2 font-semibold">Network Configuration</p>
+                            <img src="../assets/CodePipline/Set Up Networking.png" alt="Network Configuration" class="w-full h-auto rounded border border-gray-200">
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-600 mb-2 font-semibold">Instance & Scaling Configuration</p>
+                            <img src="../assets/CodePipline/configure instance traffic and scaling 1.png" alt="Instance Configuration" class="w-full h-auto rounded border border-gray-200">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-600 mb-2 font-semibold">Auto-Scaling Settings</p>
+                            <img src="../assets/CodePipline/configure instance traffic and scaling 2.png" alt="Auto-Scaling Settings" class="w-full h-auto rounded border border-gray-200">
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-600 mb-2 font-semibold">Monitoring Configuration</p>
+                            <img src="../assets/CodePipline/Configure updates, monitoring, and logging.png" alt="Monitoring Configuration" class="w-full h-auto rounded border border-gray-200">
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -90,17 +126,43 @@ aws:autoscaling:trigger:
   LowerBreachScaleIncrement: -1</pre>
                     
                     <h3 class="text-xl font-semibold mt-4 mb-2">Monitoring Setup</h3>
-                    <p>Monitoring has been implemented using AWS CloudWatch, which provides:</p>
-                    <ul class="list-disc ml-6 mt-2">
-                        <li>CPU utilization metrics</li>
-                        <li>Memory usage tracking</li>
-                        <li>Request count and latency</li>
-                        <li>Error rate monitoring</li>
-                    </ul>
+                    <p>Monitoring has been implemented using AWS CloudWatch with enhanced health reporting, providing comprehensive metrics for both instances and the environment:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <h4 class="font-semibold mb-2">Instance Metrics</h4>
+                            <ul class="list-disc ml-6">
+                                <li><strong>CPUUser & CPUSystem</strong>: CPU utilization by user and system processes</li>
+                                <li><strong>LoadAverage1min</strong>: System load average over 1 minute</li>
+                                <li><strong>RootFilesystemUtil</strong>: Storage/memory usage information</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Environment Metrics</h4>
+                            <ul class="list-disc ml-6">
+                                <li><strong>ApplicationLatencyP95 & P99</strong>: Response time measurements</li>
+                                <li><strong>ApplicationRequestsTotal</strong>: Total request count</li>
+                                <li><strong>InstancesOk</strong>: Health status of environment instances</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <p class="mt-4">These metrics are configured to trigger auto-scaling actions when CPU utilization exceeds 70% (scale up) or falls below 30% (scale down), ensuring optimal resource utilization and cost efficiency.</p>
                     
                     <div class="mt-4 bg-gray-50 p-4 rounded-lg">
                         <p class="text-gray-600 font-semibold mb-2">CloudWatch Monitoring Dashboard</p>
-                        <p class="text-gray-600 italic">Screenshots of CloudWatch metrics will be added here after deployment</p>
+                        <img src="../assets/CloudWatch/cloudwatch_metrics.png" alt="CloudWatch Metrics" class="w-full h-auto rounded border border-gray-200">
+                    </div>
+                    
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-600 mb-2 font-semibold">Application Running in Browser</p>
+                            <img src="../assets/CloudWatch/app_screenshot.png" alt="Application Screenshot" class="w-full h-auto rounded border border-gray-200">
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-600 mb-2 font-semibold">Elastic Beanstalk Dashboard</p>
+                            <img src="../assets/CloudWatch/eb_dashboard.png" alt="Elastic Beanstalk Dashboard" class="w-full h-auto rounded border border-gray-200">
+                        </div>
                     </div>
                 </div>
             </section>
