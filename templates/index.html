@@ -30,13 +30,33 @@
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Task 2: Cloud Deployment</h2>
                 <div class="prose">
                     <h3 class="text-xl font-semibold mb-2">Platform Selection</h3>
-                    <p>I chose [Cloud Platform] for deploying this application. The deployment process involved:</p>
+                    <p>I chose <strong>Amazon Web Services (AWS)</strong> for deploying this application. The deployment process involved:</p>
                     <ol class="list-decimal ml-6 mt-2">
-                        <li>Setting up a cloud account and necessary credentials</li>
-                        <li>Configuring the deployment environment</li>
-                        <li>Deploying the application</li>
-                        <li>Setting up custom domain and SSL certificates</li>
+                        <li>Setting up an AWS account and configuring IAM permissions</li>
+                        <li>Creating a CodePipeline for continuous integration and deployment</li>
+                        <li>Configuring Elastic Beanstalk environment for the Flask application</li>
+                        <li>Setting up auto-scaling and environment variables</li>
+                        <li>Deploying the application through the pipeline</li>
                     </ol>
+                    
+                    <h3 class="text-xl font-semibold mt-4 mb-2">Deployment Process</h3>
+                    <p>The deployment was implemented using AWS CodePipeline with the following stages:</p>
+                    <ul class="list-disc ml-6 mt-2">
+                        <li><strong>Source</strong>: Connected to GitHub repository</li>
+                        <li><strong>Build</strong>: Used AWS CodeBuild with buildspec.yml configuration</li>
+                        <li><strong>Deploy</strong>: Deployed to Elastic Beanstalk environment</li>
+                    </ul>
+                    
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-600 mb-2 font-semibold">CodePipeline Setup</p>
+                            <img src="../assets/CodePipline/search for codepipline.png" alt="CodePipeline Setup" class="w-full h-auto rounded border border-gray-200">
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-600 mb-2 font-semibold">Successful Deployment</p>
+                            <img src="../assets/CodePipline/Success.png" alt="Successful Deployment" class="w-full h-auto rounded border border-gray-200">
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -44,17 +64,43 @@
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Task 3: Scalability and Monitoring</h2>
                 <div class="prose">
                     <h3 class="text-xl font-semibold mb-2">Auto-scaling Configuration</h3>
-                    <p>The application is configured to automatically scale based on traffic:</p>
+                    <p>The application is configured to automatically scale based on traffic using AWS Elastic Beanstalk's auto-scaling capabilities:</p>
                     <ul class="list-disc ml-6 mt-2">
                         <li>Minimum instances: 2</li>
                         <li>Maximum instances: 5</li>
                         <li>Scaling triggers: CPU utilization > 70%</li>
+                        <li>Scale down when CPU utilization < 30%</li>
+                        <li>Breach duration: 5 minutes (300 seconds)</li>
                     </ul>
                     
+                    <p class="mt-2">The auto-scaling configuration is defined in the <code>.ebextensions/python.config</code> file:</p>
+                    <pre class="bg-gray-100 p-3 rounded text-sm overflow-x-auto mt-2">
+aws:autoscaling:asg:
+  MinSize: 2
+  MaxSize: 5
+aws:autoscaling:trigger:
+  MeasureName: CPUUtilization
+  Statistic: Average
+  Unit: Percent
+  Period: 300
+  BreachDuration: 300
+  UpperThreshold: 70
+  LowerThreshold: 30
+  UpperBreachScaleIncrement: 1
+  LowerBreachScaleIncrement: -1</pre>
+                    
                     <h3 class="text-xl font-semibold mt-4 mb-2">Monitoring Setup</h3>
-                    <p>Monitoring has been implemented using [Cloud Platform]'s native monitoring tools:</p>
+                    <p>Monitoring has been implemented using AWS CloudWatch, which provides:</p>
+                    <ul class="list-disc ml-6 mt-2">
+                        <li>CPU utilization metrics</li>
+                        <li>Memory usage tracking</li>
+                        <li>Request count and latency</li>
+                        <li>Error rate monitoring</li>
+                    </ul>
+                    
                     <div class="mt-4 bg-gray-50 p-4 rounded-lg">
-                        <p class="text-gray-600 italic">Screenshots of monitoring metrics will be added here</p>
+                        <p class="text-gray-600 font-semibold mb-2">CloudWatch Monitoring Dashboard</p>
+                        <p class="text-gray-600 italic">Screenshots of CloudWatch metrics will be added here after deployment</p>
                     </div>
                 </div>
             </section>
@@ -64,12 +110,19 @@
                 <div class="prose">
                     <div class="space-y-4">
                         <div>
-                            <h3 class="text-xl font-semibold">Challenge 1: [Description]</h3>
-                            <p class="mt-2">Solution: [How it was resolved]</p>
+                            <h3 class="text-xl font-semibold">Challenge 1: CodePipeline Configuration</h3>
+                            <p class="mt-2">During the initial setup of the CodePipeline, I encountered issues with the source stage configuration. The pipeline was not detecting changes in the GitHub repository.</p>
+                            <p class="mt-2"><strong>Solution:</strong> I reconfigured the webhook settings in GitHub and ensured that the correct IAM permissions were set up for the CodePipeline service role. This resolved the issue and allowed the pipeline to properly detect repository changes.</p>
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold">Challenge 2: [Description]</h3>
-                            <p class="mt-2">Solution: [How it was resolved]</p>
+                            <h3 class="text-xl font-semibold">Challenge 2: Elastic Beanstalk Environment Configuration</h3>
+                            <p class="mt-2">The initial deployment to Elastic Beanstalk failed because the application wasn't properly recognizing the WSGI application entry point.</p>
+                            <p class="mt-2"><strong>Solution:</strong> I added the proper configuration in the <code>.ebextensions/python.config</code> file to specify the WSGI path as <code>app:app</code>, which correctly pointed to the Flask application instance in the app.py file.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold">Challenge 3: Auto-scaling Configuration</h3>
+                            <p class="mt-2">Setting up the auto-scaling configuration was challenging as I needed to determine the appropriate thresholds for scaling up and down.</p>
+                            <p class="mt-2"><strong>Solution:</strong> After researching AWS best practices, I configured the auto-scaling to use CPU utilization as the primary metric with appropriate thresholds (70% for scaling up, 30% for scaling down) and a breach duration of 5 minutes to avoid unnecessary scaling events due to temporary spikes.</p>
                         </div>
                     </div>
                 </div>

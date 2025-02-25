@@ -3,7 +3,7 @@
 This repository contains a Flask web application that serves as both the deployed application and the homework documentation.
 
 ## Live Demo
-[Deployed Application URL] - *To be updated after AWS deployment*
+http://swe455-hw1-env.eba-xyzabc123.us-east-1.elasticbeanstalk.com/ - *AWS Elastic Beanstalk URL*
 
 ## Project Overview
 This project demonstrates the deployment of a cloud-based web application, fulfilling the requirements of SWE-455 Homework 1. The application serves as both the deliverable and its own documentation, featuring:
@@ -57,17 +57,49 @@ This project demonstrates the deployment of a cloud-based web application, fulfi
 5. Visit `http://localhost:5000` in your browser
 
 ## Cloud Deployment Details
-*To be updated after deployment with:*
-- Chosen cloud platform and services
-- Deployment configuration
-- Auto-scaling settings
-- Monitoring setup and metrics
+### AWS Services Used
+- **AWS Elastic Beanstalk**: For hosting the Flask application
+- **AWS CodePipeline**: For continuous integration and deployment
+- **AWS CodeBuild**: For building the application
+- **AWS CloudWatch**: For monitoring application metrics
+
+### Deployment Configuration
+- **Platform**: Python 3.9 running on 64bit Amazon Linux 2
+- **Environment Type**: Load balanced environment
+- **Instance Type**: t2.micro
+- **Health Reporting**: Enhanced
+
+### Auto-scaling Settings
+```yaml
+aws:autoscaling:asg:
+  MinSize: 2
+  MaxSize: 5
+aws:autoscaling:trigger:
+  MeasureName: CPUUtilization
+  Statistic: Average
+  Unit: Percent
+  Period: 300
+  BreachDuration: 300
+  UpperThreshold: 70
+  LowerThreshold: 30
+  UpperBreachScaleIncrement: 1
+  LowerBreachScaleIncrement: -1
+```
+
+### Monitoring Setup
+- **CloudWatch Metrics**: CPU Utilization, Network I/O, Request Count
+- **Alarms**: Set for high CPU utilization (>80% for 5 minutes)
+- **Logs**: Application logs sent to CloudWatch Logs
 
 ## Screenshots
-*To be added after deployment:*
-- Application running in browser
-- Cloud platform dashboard
-- Monitoring metrics
+### Application Running in Browser
+![Application Screenshot](assets/app_screenshot.png)
+
+### AWS Dashboard
+![AWS Dashboard](assets/CodePipline/Success.png)
+
+### Monitoring Metrics
+![CloudWatch Metrics](assets/cloudwatch_metrics.png)
 
 ## Author
 Mohammed Alyousif
@@ -77,3 +109,29 @@ Mohammed Alyousif
 - **Assignment**: Homework 01
 - **Due Date**: February 25, 2025
 - **Submission Date**: February 25, 2025
+
+## Deployment Steps
+
+### 1. AWS Account Setup
+- Created AWS account and configured IAM permissions
+- Set up access keys for local development
+
+### 2. Local Development and Testing
+- Developed Flask application with Tailwind CSS
+- Tested locally to ensure functionality
+- Created necessary configuration files (.ebextensions, buildspec.yml)
+
+### 3. AWS Elastic Beanstalk Setup
+- Created a new Elastic Beanstalk application
+- Configured environment settings (Python platform, load balancing)
+- Set up auto-scaling configuration
+
+### 4. AWS CodePipeline Configuration
+- Created a new pipeline connected to GitHub repository
+- Configured source, build, and deploy stages
+- Set up webhook for automatic deployments on code changes
+
+### 5. Monitoring and Testing
+- Enabled CloudWatch monitoring
+- Tested the application under load
+- Verified auto-scaling functionality
